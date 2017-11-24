@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yixuan.oswifi.dao.IQueryTableIdDao">
+	
+	<insert id="insertTableIdbyTableName"  parameterType="string">
+		insert t_oswifi_tablesId (tableName,maxId,modifyTime)
+		values(#{tableName},1,sysdate())
+	</insert>
+	
+	<update id="updateTableIdbyTableName" parameterType="string">
+		update t_oswifi_tablesId tables
+		set tables.maxId = tables.maxId + 1
+		where tables.tableName = #{tableName}
+	</update>
+
+
+	<select id="queryTableIdbyTableName" parameterType="string" resultType="int">
+		select maxId id from t_oswifi_tablesId tables
+		where tables.tableName = #{tableName}
+	</select>
+</mapper>

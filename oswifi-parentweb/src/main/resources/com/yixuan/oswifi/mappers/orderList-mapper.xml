@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yixuan.oswifi.dao.IOrderListDao">
+
+	<select id="queryOrderList" parameterType="com.yixuan.oswifi.model.OrderListRequestEntity"
+		resultType="com.yixuan.oswifi.model.OrderDetailResponseEntity">
+		select
+		o.id,o.orderNo,o.telephone,o.packageId,o.packageName,o.Price,o.days,o.isUse,o.logicstate,p.packageContent
+		from t_oswifi_order o left join t_oswifi_package p on o.packageId =p.id
+		where o.telephone=#{telephone} and o.logicstate =#{logicstate} 
+		<if test="null != isUse and ''!= isUse">and isUse = #{isUse}</if>
+	</select>
+
+</mapper>

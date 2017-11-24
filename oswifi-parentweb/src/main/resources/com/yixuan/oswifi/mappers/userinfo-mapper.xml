@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yixuan.oswifi.dao.IUserInfoDao">
+
+<select id="queryUserInfo" parameterType="com.yixuan.oswifi.model.UserInfoEntity" resultType="com.yixuan.oswifi.model.UserInfoEntity">
+	select 
+	id,
+	telephone,
+	username,
+	sex,
+	nickName,
+	PersonalizedSignature,
+	IDCardNo,
+	UniqueNumber,
+	date_format(createTime,'%Y-%m-%d %H:%i:%s') createTime,
+	date_format(modifyTime,'%Y-%m-%d %H:%i:%s') modifyTime
+	from t_oswifi_memberinfo m
+	where m.telephone = #{telephone} and m.logicstate = 0
+</select>
+
+<insert id="insertUserInfo" parameterType="com.yixuan.oswifi.model.UserInfoEntity">
+	insert into t_oswifi_memberinfo (
+	id,
+	telephone,
+	username,
+	sex,
+	nickName,
+	PersonalizedSignature,
+	IDCardNo,
+	UniqueNumber,
+	createTime,
+	logicstate
+	)
+	values(
+	#{id},
+	#{telephone},
+	#{username},
+	#{sex},
+	#{nickName},
+	#{PersonalizedSignature},
+	#{IDCardNo},
+	#{UniqueNumber},
+	sysdate(),
+	0
+	)
+</insert>
+
+<update id="updateUserInfo" parameterType="com.yixuan.oswifi.model.UserInfoEntity">
+	update t_oswifi_memberinfo 
+	set 
+	<if test="null != username">username = #{username},</if>
+	<if test="null != sex">sex = #{sex},</if>
+	<if test="null != nickName">nickName = #{nickName},</if>
+	<if test="null != PersonalizedSignature">PersonalizedSignature = #{PersonalizedSignature},</if>
+	<if test="null != IDCardNo">IDCardNo = #{IDCardNo},</if>
+	<if test="null != UniqueNumber">UniqueNumber = #{UniqueNumber},</if>
+	<if test="null != telephone">telephone = #{telephone}</if>
+	where id = #{id} and telephone = #{telephone}
+</update>
+</mapper>

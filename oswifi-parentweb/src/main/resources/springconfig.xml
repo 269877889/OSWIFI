@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:jaxrs="http://cxf.apache.org/jaxrs" xmlns:cxf="http://cxf.apache.org/core"
+	xsi:schemaLocation="http://cxf.apache.org/jaxws
+	        http://cxf.apache.org/schemas/jaxws.xsd
+			http://www.springframework.org/schema/beans 
+			http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+			http://www.springframework.org/schema/context 
+			http://www.springframework.org/schema/context/spring-context-4.0.xsd
+			http://www.springframework.org/schema/jee 
+			http://www.springframework.org/schema/jee/spring-jee-4.0.xsd
+			http://www.springframework.org/schema/tx 
+			http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+			http://www.springframework.org/schema/aop 
+			http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+			  http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
+        	http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
+
+<bean id="springContextUtil" class="com.yixuan.oswifi.util.SpringContextUtil" lazy-init="false"/>
+
+<!-- 获取maxid -->
+<bean id="queryTableIdService" class="com.yixuan.oswifi.service.impl.QueryTableIdServiceImpl"/>
+
+<!-- 支付宝支付，接收通知的service -->
+<bean id="alipayCallbackService" class="com.yixuan.oswifi.service.impl.AlipayCallbackServiceImpl"/>
+<!-- 支付宝支付，接收通知的-->
+<bean id="alipayaction" class="com.yixuan.oswifi.action.alipayAction">
+	<property name="alipayCallbackService" ref="alipayCallbackService" />
+</bean>
+
+<!-- alipay 发起付款 -->
+<bean id="AlipayPaymentOrderInfoService" class="com.yixuan.oswifi.service.impl.AlipayPaymentOrderInfoServiceImpl" >
+	<property name="queryTableIdService" ref="queryTableIdService"></property>
+</bean>
+
+<!-- 请求时，校验登录信息 -->
+<bean id="verificationService" class="com.yixuan.oswifi.service.impl.VerificationServiceImpl"/>
+
+<!-- 发送验证码 -->
+<bean id="sendVerificationCode" class="com.yixuan.oswifi.service.impl.SendVerificationCodeServiceImpl">
+	<property name="queryTableIdService" ref="queryTableIdService"/>
+</bean>
+
+<!-- 用户登录 -->
+<bean id="userloginservice" class="com.yixuan.oswifi.service.impl.UserLoginServiceImpl"/>
+
+<!-- 用户信息 -->
+<bean id="userInfoService" class="com.yixuan.oswifi.service.impl.UserInfoServiceImpl"/>
+
+<!-- 套餐详情 -->
+<bean id="packageDetailService" class="com.yixuan.oswifi.service.impl.PackageDetailServiceImpl"/>
+
+<!-- 套餐列表 -->
+<bean id="packageListService" class="com.yixuan.oswifi.service.impl.PackageListServiceImpl"/>
+
+<!-- 订单详情 -->
+<bean id="orderDetailService" class="com.yixuan.oswifi.service.impl.OrderDetailServiceImpl"/>
+
+<!-- 订单列表 -->
+<bean id="orderListService" class="com.yixuan.oswifi.service.impl.OrderListServiceImpl"/>
+
+<!-- 意见反馈 -->
+<bean id="feedbackService" class="com.yixuan.oswifi.service.impl.FeedbackServiceImpl"/>
+
+<!-- mobile总接口 -->
+<bean id="mobileRestService" class="com.yixuan.oswifi.service.impl.MobileRestServiceImpl"/>
+
+<jaxrs:server id="mamApplication" address="/oswifiMobileRest">
+		<jaxrs:serviceBeans>
+			<ref bean="mobileRestService" />
+		</jaxrs:serviceBeans>
+		<jaxrs:extensionMappings>
+			<entry key="json" value="application/json" />
+		</jaxrs:extensionMappings>
+		<jaxrs:languageMappings>
+			<entry key="en" value="en-gb" />
+		</jaxrs:languageMappings>
+		<jaxrs:providers>
+			<ref bean="jacksonJsonProvider" />
+		</jaxrs:providers>
+	</jaxrs:server>
+
+	<!-- 定义jackson 日期转换格式 -->
+	<bean id="simpleDataformat" class="java.text.SimpleDateFormat">
+		<constructor-arg value="yyyy-MM-dd HH:mm:ss"></constructor-arg>
+	</bean>
+	<!-- jackson mapper -->
+	<bean id="mapper" class="org.codehaus.jackson.map.ObjectMapper">
+		<property name="dateFormat" ref="simpleDataformat"></property>
+	</bean>
+	<!-- jackson provider -->
+	<bean id="jacksonJsonProvider" class="org.codehaus.jackson.jaxrs.JacksonJsonProvider">
+		<property name="mapper" ref="mapper"></property>
+	</bean>
+</beans>

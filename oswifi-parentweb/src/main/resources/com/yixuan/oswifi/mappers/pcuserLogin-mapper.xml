@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yixuan.oswifi.dao.IPCUserLoginDao">
+	<select id="queryCountUser" parameterType="com.yixuan.oswifi.model.PCuserLoginEntity" resultType="int">
+		select count(1) from t_oswifi_pclogininfo l
+		where username = #{username} and password = #{password}
+		and logicstate = 0
+	</select>
+	
+	
+</mapper>

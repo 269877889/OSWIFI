@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <!-- 将mybatis的执行过程显示在控制台
+        <setting name="logImpl" value="STDOUT_LOGGING" />   -->
+        <!-- 在用到级联属性的时候才会查询 -->
+        <setting name="lazyLoadingEnabled" value="true" />
+        <!--true： 把所有级联查询都执行 -->
+        <setting name="aggressiveLazyLoading" value="false" />
+        <!-- 将下划线格式转换为驼峰格式： table：user_name java: userName -->
+        <setting name="mapUnderscoreToCamelCase" value="true" />
+    </settings>
+    <typeAliases>
+        <package name="com.yixuan.oswifi.model" />
+    </typeAliases>
+
+</configuration>

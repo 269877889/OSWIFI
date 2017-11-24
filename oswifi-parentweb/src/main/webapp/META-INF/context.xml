@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+
+	<!-- Default set of monitored resources -->
+	<WatchedResource>WEB-INF/web.xml</WatchedResource>
+
+
+	<Resource name="jdbc/oswifids" auth="Container" type="javax.sql.DataSource"
+			  username="root" password="osWiFi2017*" driverClassName="com.mysql.jdbc.Driver"
+			  url="jdbc:mysql://47.93.218.98:3306/oswifidb" maxActive="4"
+			  maxIdle="2" />
+
+
+</Context>

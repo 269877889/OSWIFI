@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yixuan.oswifi.dao.IFeedbackDao">
+
+	<insert id="insertfeedback" parameterType="com.yixuan.oswifi.model.FeedbackInfo">
+		insert into t_oswifi_feedback (
+		id,
+		telephone,
+		feedback,
+		createTime,
+		logicstate
+		)
+		values(
+		#{id},
+		#{telephone},
+		#{feedback},
+		sysdate(),
+		0
+		)
+	</insert>
+
+</mapper>

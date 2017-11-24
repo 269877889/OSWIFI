@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yixuan.oswifi.dao.IOrderDetailDao">
+
+	<select id="queryOrderDetail" parameterType="com.yixuan.oswifi.model.OrderDetailRequestEntity"
+		resultType="com.yixuan.oswifi.model.OrderDetailResponseEntity">
+		select
+		o.id,
+		o.telephone,
+		o.packageId,
+		o.packageName,
+		o.Price,
+		o.days,
+		o.isUse,
+		o.logicstate,
+		o.modeOfPayment,
+		p.packageContent
+		from t_oswifi_order o left join t_oswifi_package p on o.packageId = p.id
+		where o.id=#{id}
+	</select>
+
+	<update id="updateOrderDetail" parameterType="com.yixuan.oswifi.model.OrderDetailInfo">
+		update t_oswifi_order 
+		set status = #{status},isUse = #{isUse}
+		where orderNo = #{orderNo}
+	</update>
+
+	<insert id="insertOrderDetail" parameterType="com.yixuan.oswifi.model.OrderDetailInfo">
+		insert into t_oswifi_order (
+		id,
+		orderNo,
+		status,
+		telephone,
+		packageId,
+		packageName,
+		Price,
+		days,
+		isUse,
+		createTime,
+		modeOfPayment,
+		logicstate
+		)
+		values(
+		#{id},
+		#{orderNo},
+		'paying',
+		#{telephone},
+		#{packageId},
+		#{packageName},
+		#{Price},
+		#{days},
+		'N',
+		sysdate(),
+		#{modeOfPayment},
+		0
+		)
+	</insert>
+</mapper>

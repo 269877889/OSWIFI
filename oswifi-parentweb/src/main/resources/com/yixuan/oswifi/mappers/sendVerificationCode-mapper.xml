@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yixuan.oswifi.dao.ISendVerificationCodeDao">
+	
+	<sql id="insertVerificationCodeParams">
+		id,
+		telephone,
+		identifyingCode,
+		createTime,
+		createUser,
+		modifyTime,
+		modifyUser,
+		logicstate
+	</sql>
+
+	<select id="queryVerificationCodeInfo" parameterType="com.yixuan.oswifi.model.VerificationCodeInfo" resultType="com.yixuan.oswifi.model.VerificationCodeInfo">
+		select 
+			id,
+			telephone,
+			identifyingCode,
+			createTime,
+			createUser,
+			modifyTime,
+			modifyUser,
+			logicstate
+		from t_oswifi_logininfo loginfo
+		<where>
+			<if test="telephone != null"> loginfo.telephone = #{telephone}</if>
+			<if test="identifyingCode != null"> and loginfo.identifyingCode = #{identifyingCode} </if>
+			<if test="logicstate != null">and loginfo.logicstate = #{logicstate}</if>
+		</where>
+	</select>
+
+	<insert id="insertVerificationCodeInfo" parameterType="com.yixuan.oswifi.model.VerificationCodeInfo">
+		insert into t_oswifi_logininfo (
+		<include refid="insertVerificationCodeParams"/>
+		)
+		values(
+		#{id},
+		<choose><when test="telephone != null">#{telephone}</when><otherwise>null</otherwise></choose>,
+		<choose><when test="identifyingCode != null">#{identifyingCode}</when><otherwise>null</otherwise></choose>,
+		sysdate(),
+		'000000',
+		sysdate(),
+		'000000',
+		0
+		)
+	</insert>
+
+	<update id="updateVerificationCodeInfo" parameterType="com.yixuan.oswifi.model.VerificationCodeInfo">
+		update t_oswifi_logininfo loginfo
+		set loginfo.identifyingCode = #{identifyingCode}
+		where loginfo.telephone = #{telephone} and loginfo.logicstate = #{logicstate}
+	</update>
+</mapper>

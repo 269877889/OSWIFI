@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<!-- 修改配置文件不用重启tomcat的方法 注意：tomcat目录不能有空格！！！ -->
+	<constant name="struts.devMode" value="true" />
+	<constant name="struts.configuration.xml.reload" value="true" />
+	<constant name="struts.convention.default.parent.package"
+		value="oswifi-default" />
+
+	<package name="oswifi-default" namespace="/"
+		extends="struts-default,json-default">
+
+
+<!-- 		<interceptors> -->
+<!-- 			<interceptor name="logininterceptor" class=""></interceptor> -->
+<!-- 			<interceptor-stack name=""></interceptor-stack> -->
+<!-- 		</interceptors> -->
+
+		<action name="login" class="pcuserLoginAction" method="login">
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result>
+		</action>
+
+		<action name="logout" class="pcuserLoginAction" method="logout">
+			<result name="success" type="json"></result>
+			<result name="error" type="json"></result>
+		</action>
+		<action name="alipaycallback" class="alipayaction" method="alipaycallback">
+			<result name="success"></result>
+		</action>
+
+		<!-- 在这个package里可以共用的结果集,每个action中都可以使用这个result -->
+		<!-- <global-results> -->
+		<!-- <result name="list" type="redirectAction">list</result> -->
+		<!-- </global-results> -->
+
+
+
+	</package>
+</struts>

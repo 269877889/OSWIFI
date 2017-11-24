@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+    <!-- 给类加上spring组件注解，@Component，@Repository，@Service，@Controller，
+        就会将这个对象作为Bean注册进Spring容器-->
+<!--     <context:component-scan base-package="com.yixuan.oswifi.service" /> -->
+
+	<bean id="pcuserloginservice" class="com.yixuan.oswifi.service.impl.PCUserLoginServiceImpl"/>
+
+	<bean id="pcuserLoginAction" class="com.yixuan.oswifi.action.PCUserLoginAction" scope="prototype">
+		<property name="pcuserloginservice" ref="pcuserloginservice"></property>
+	</bean>
+</beans>

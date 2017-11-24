@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yixuan.oswifi.dao.IPackageDetailDao">
+
+<select id="queryPackageDetail" parameterType="int"
+	resultType="com.yixuan.oswifi.model.PackageDetailResponseEntity">
+	SELECT
+	ID,packageName,packageNo,packageType,packageDays,packagePrice,packageContent,remark,
+	date_format(createTime,'%Y-%m-%d %H:%i:%s') createTime,createUser,date_format(modifyTime,'%Y-%m-%d %H:%i:%s') modifyTime,modifyUser,logicstate
+	FROM
+	t_oswifi_package
+	WHERE ID = #{id}
+</select>
+
+</mapper>

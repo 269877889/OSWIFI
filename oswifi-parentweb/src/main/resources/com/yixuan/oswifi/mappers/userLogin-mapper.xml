@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yixuan.oswifi.dao.IUserLoginDao">
+	<select id="queryUsercount" parameterType="com.yixuan.oswifi.model.UserLoginRequestEntity" resultType="int">
+		select count(1) from t_oswifi_logininfo l
+		where telephone = #{telephone} and identifyingCode = #{identifyingCode}
+	</select>
+	
+	<select id="queryUserhaveRight" parameterType="com.yixuan.oswifi.model.UserLoginRequestEntity" resultType="int">
+		select count(1) from t_oswifi_logininfo l
+		where telephone = #{telephone} 
+			  and token = #{token}
+	</select>
+	
+	<insert id="insertUserLogininfo" parameterType="com.yixuan.oswifi.model.VerificationCodeInfo">
+		insert into t_oswifi_logininfo (
+			id,
+			telephone,
+			token,
+			identifyingCode,
+			createTime,
+			logicstate
+			)
+		values(
+		#{id},
+		#{telephone},
+		#{token},
+		#{identifyingCode},
+		sysdate(),
+		0
+		)
+	</insert>
+	
+	<update id="updateUsertoken" parameterType="com.yixuan.oswifi.model.UserLoginRequestEntity">
+		update t_oswifi_logininfo logininfo
+		set logininfo.token = #{token}
+		where logininfo.telephone = #{telephone} and logininfo.logicstate = 0
+	</update>
+</mapper>
